@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+    <title>ROT Encryption</title>
+       <style>
+        @font-face {
+            font-family: 'Minisystem';
+            src: url('1.otf');
+        }
+
+        * {
+            background-color: black;
+            color: green;
+            font-family: 'Minisystem';
+        }
+
+        html,
+        body {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #centered-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROT Encryption</h1>
+
+    <form>
+        <label for="input-text">Input Text:</label>
+        <br>
+        <textarea id="input-text" rows="5" cols="50"></textarea>
+
+        <br><br>
+
+        <label for="rot-number">Rotation Number:</label>
+        <input type="number" id="rot-number" min="1" max="26" value="13">
+
+        <br><br>
+
+        <label for="encrypted-message">Encrypted Message:</label>
+        <br>
+        <textarea id="encrypted-message" rows="5" cols="50" readonly></textarea>
+
+        <br><br>
+
+        <button type="button" onclick="encrypt()">Encrypt!</button>
+    </form>
+
+    <script>
+        function encrypt() {
+            let inputText = document.getElementById('input-text').value;
+            let rotation = parseInt(document.getElementById('rot-number').value);
+            let encryptedMessage = '';
+
+            for (let i = 0; i < inputText.length; i++) {
+                let char = inputText[i];
+
+                if (isLetter(char)) {
+                    let asciiCode = inputText.charCodeAt(i);
+                    let shiftedAsciiCode = asciiCode + rotation;
+
+                    if ((isUpperCase(char) && shiftedAsciiCode > 90) || (isLowerCase(char) && shiftedAsciiCode > 122)) {
+                        shiftedAsciiCode -= 26;
+                    }
+
+                    char =
+String.fromCharCode(shiftedAsciiCode);
+                }
+
+                encryptedMessage += char;
+            }
+
+            document.getElementById('encrypted-message').value = encryptedMessage;
+        }
+
+        function isLetter(char) {
+            return char.match(/[a-z]/i);
+        }
+
+        function isUpperCase(char) {
+            return char === char.toUpperCase();
+        }
+
+        function isLowerCase(char) {
+            return char === char.toLowerCase();
+        }
+    </script>
+</body>
+</html>
